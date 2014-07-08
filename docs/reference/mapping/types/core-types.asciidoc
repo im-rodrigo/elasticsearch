@@ -285,6 +285,28 @@ example:
 }
 --------------------------------------------------
 
+To illustrate the `token_count` type in action, let's index a document of 
+doc_type `tweet` with a single property `name`: 
+
+[source,js]
+--------------------------------------------------
+$ curl -XPUT 'http://localhost:9200/project/tweet/123' -d '
+{
+   "name":"Ruffalo ruffalo Ruffalo ruffalo ruffalo ruffalo Ruffalo buffalo"
+}'
+--------------------------------------------------
+
+After storing, accessing both the string and the token count can be accomplished
+by executing the following query:
+
+[source,js]
+--------------------------------------------------
+$ curl -XPOST 'http://localhost:9200/project/tweet/_search?pretty' -d '
+{
+   "fields":["name.word_count","name"], "query":{"match_all":{}}
+}'
+--------------------------------------------------
+
 All the configuration that can be specified for a number can be specified
 for a token_count.  The only extra configuration is the required
 `analyzer` field which specifies which analyzer to use to break the string
